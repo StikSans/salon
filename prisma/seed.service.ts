@@ -13,7 +13,7 @@ export class SeedService {
     }
   }
   private async createAdmin() {
-    const admin = await this.prisma.user.upsert({
+    await this.prisma.user.upsert({
       where: { phone: '89999999999' },
       update: {},
       create: {
@@ -25,10 +25,10 @@ export class SeedService {
       },
     });
 
-    console.log('Admin created or already exist:', admin);
+    console.log('Admin created');
   }
   private async createRoles() {
-    const adminRole = await this.prisma.role.upsert({
+    await this.prisma.role.upsert({
       where: { name: RoleType.ADMIN },
       update: {},
       create: {
@@ -36,8 +36,7 @@ export class SeedService {
         description: 'Administrator with full access',
       },
     });
-
-    const userRole = await this.prisma.role.upsert({
+    await this.prisma.role.upsert({
       where: { name: RoleType.USER },
       update: {},
       create: {
@@ -46,6 +45,6 @@ export class SeedService {
       },
     });
 
-    console.log('Roles created or already exist:', { adminRole, userRole });
+    console.log('Roles created ');
   }
 }
