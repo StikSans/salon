@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { RoleType } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../src/prisma.service'; // Импортируем PrismaService
 
 @Injectable()
@@ -18,7 +19,7 @@ export class SeedService {
       update: {},
       create: {
         phone: '89999999999',
-        password: 'admin',
+        password: await bcrypt.hash('admin', 10),
         name: 'admin',
         surName: 'admin',
         roleId: 1,
