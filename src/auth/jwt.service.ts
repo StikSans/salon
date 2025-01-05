@@ -15,38 +15,21 @@ export class AuthService {
 
   async reg(createUser: CreateUserDto) {
     const user = await this.userSerivce.creaete(createUser);
-    return {
-      access_token: await this.createToken(
-        { id: user.id, roleId: user.roleId },
-        '15min',
-        'JWT_ACCESS_KEY',
-      ),
-      refresh_token: await this.createToken(
-        { id: user.id, roleId: user.roleId },
-        '7d',
-        'JWT_REFRESH_KEY',
-      ),
-    };
+    return await this.returnToken({ id: user.id, roleId: user.roleId });
   }
   async login(loginUser: LoginUserDto) {
     const user = await this.userSerivce.getUserByPhoneAndPassword(
       loginUser.phone,
       loginUser.password,
     );
+    return await this.returnToken({ id: user.id, roleId: user.roleId });
+  }
+  private async returnToken(payload: { id: number; roleId: number }) {
     return {
-      access_token: await this.createToken(
-        { id: user.id, roleId: user.roleId },
-        '15min',
-        'JWT_ACCESS_KEY',
-      ),
-      refresh_token: await this.createToken(
-        { id: user.id, roleId: user.roleId },
-        '7d',
-        'JWT_REFRESH_KEY',
-      ),
+      access_token: await this.createToken(payload, '15min', 'JWT_ACCESS_KEY'),
+      refresh_token: await this.createToken(payload, '7d', 'JWT_REFRESH_KEY'),
     };
   }
-
   private async createToken(
     payload: { id: number; roleId: number },
     time: '15min' | '7d',
