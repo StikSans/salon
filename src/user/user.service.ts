@@ -16,6 +16,10 @@ export class UserService {
     return await this.prismaService.user.findMany({ include: { role: true } });
   }
 
+  async getUser(id: number) {
+    return await this.prismaService.user.findUnique({ where: { id } });
+  }
+
   async creaete(createUser: CreateUserDto) {
     const { password, ...userData } = createUser;
     const field = await this.prismaService.user.findFirst({

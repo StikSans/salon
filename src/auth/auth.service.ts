@@ -24,6 +24,10 @@ export class AuthService {
     );
     return await this.returnToken({ id: user.id, roleId: user.roleId });
   }
+
+  async checkToken(id: number) {
+    return await this.userSerivce.getUser(id);
+  }
   private async returnToken(payload: { id: number; roleId: number }) {
     return {
       access_token: await this.createToken(payload, '15min', 'JWT_ACCESS_KEY'),
