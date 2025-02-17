@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: nestjs-destinationrule
+spec:
+  host: nestjs-service
+  subsets:
+  - name: v1
+    labels:
+      app: nestjs-app
+    trafficPolicy:
+      loadBalancer:
+        consistentHash:
+          httpCookie:
+            name: user-session
+            ttl: 0s

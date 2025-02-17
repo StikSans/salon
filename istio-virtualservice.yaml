@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: nestjs-virtualservice
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - nestjs-gateway
+  http:
+  - route:
+    - destination:
+        host: nestjs-service
+        subset: v1
+      weight: 100
